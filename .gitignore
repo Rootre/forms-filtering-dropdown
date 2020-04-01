@@ -1,0 +1,5 @@
+lib/
+dist/
+.idea/
+node_modules/
+styles.css*

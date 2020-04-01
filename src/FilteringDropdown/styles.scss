@@ -1,0 +1,21 @@
+.header {
+    cursor: default;
+
+    &:hover {
+        background-color: transparent;
+    }
+}
+.input {
+    margin: 15px 0 5px;
+
+    input {
+        border: 1px solid #c8c8c8;
+        border-radius: 0;
+        box-sizing: border-box;
+        display: block;
+        font-size: 14px;
+        outline: none;
+        padding: 10px;
+        width: 100%;
+    }
+}
