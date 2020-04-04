@@ -1,4 +1,4 @@
-.header {
+.disabled {
     cursor: default;
 
     &:hover {
@@ -6,7 +6,7 @@
     }
 }
 .input {
-    margin: 15px 0 5px;
+    margin: 15px 15px 5px;
 
     input {
         border: 1px solid #c8c8c8;

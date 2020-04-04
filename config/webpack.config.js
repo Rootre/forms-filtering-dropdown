@@ -54,12 +54,18 @@ module.exports = {
                         loader: 'css-loader',
                         options: {
                             modules: {
-                                localIdentName: 'forms-filtering-dropdown_[local]',
+                                localIdentName: 'dropdown_[local]',
                             },
                             importLoaders: 1,
                         }
                     },
-                    'sass-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            // Prefer `dart-sass`
+                            implementation: require('sass'),
+                        },
+                    },
                 ],
             },
         ]

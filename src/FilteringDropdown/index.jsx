@@ -12,37 +12,53 @@ const highlightedKey = 'highlightedResult';
 export default function FilteringDropdown(
     {
         items = [],
+        controllers = {
+            active: null,
+            open: null,
+        },
         searchIn = 'label',
         labelKey = 'label',
         initialIsOpened = false,
         initialSearchText = '',
         texts = {
             noResults: 'No results...',
-            searchPlaceholder: 'filter items...',
+            searchPlaceholder: 'Filter items...',
         },
         ...rest
     }
 ) {
     const [filteredItems, searchText, setSearchText] = useFilterItems(items, searchIn, initialSearchText);
     const inputRef = useRef();
-    const openController = useState(initialIsOpened);
+    const openController = controllers.open || useState(initialIsOpened);
     const [isOpen] = openController;
 
     function itemTemplate(item, handleSelect, index) {
-        const {header, [highlightedKey]: highlightedLabel, [labelKey]: label} = item;
+        const {_disabled, [highlightedKey]: highlightedLabel, [labelKey]: label} = item;
 
         return (
             <div key={index} className={classNames(dropdownStyles.item, {
-                [styles.header]: header,
-            })} onClick={() => !header && handleSelect(item)}>
-                {header ? label : highlightedLabel ? <span dangerouslySetInnerHTML={{__html: highlightedLabel}}/> : label}
+                [styles.disabled]: _disabled,
+            })} onClick={() => !_disabled && handleSelect(item)}>
+                {highlightedLabel ? <span dangerouslySetInnerHTML={{__html: highlightedLabel}}/> : label}
             </div>
         );
+    }
+    function itemsTemplate(items, handleSelect) {
+        return (
+          <>
+              <div className={styles.input}>
+                  <input ref={inputRef} value={searchText} onChange={e => setSearchText(e.target.value)} placeholder={texts.searchPlaceholder}/>
+              </div>
+              <div className={dropdownStyles.list}>
+                  {items.map((item, index) => itemTemplate(item, handleSelect, index))}
+              </div>
+          </>
+        )
     }
 
     if (items.length && filteredItems.length === 0) {
         filteredItems.push({
-            header: true,
+            _disabled: true,
             [labelKey]: texts.noResults,
         });
     }
@@ -54,21 +70,12 @@ export default function FilteringDropdown(
     return (
         <Dropdown
             controllers={{
+                ...controllers,
                 open: openController,
             }}
-            items={filteredItems.reduce((acc, item) => {
-                acc.push(item);
-
-                return acc;
-            }, [{
-                header: true,
-                [labelKey]: (
-                    <div className={styles.input}>
-                        <input ref={inputRef} value={searchText} onChange={e => setSearchText(e.target.value)} placeholder={texts.searchPlaceholder}/>
-                    </div>
-                ),
-            }])}
+            items={filteredItems}
             itemTemplate={itemTemplate}
+            itemsTemplate={itemsTemplate}
             labelKey={labelKey}
             {...rest}
         />

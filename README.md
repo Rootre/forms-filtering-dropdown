@@ -1,16 +1,90 @@
-# forms-filtering-dropdown component
+# Filtering dropdown component
 
-Filtering dropdown for various cases. Depends on @rootre/forms-dropdown
+Filtering dropdown for various cases. Extends [@rootre/forms-dropdown](https://www.npmjs.com/package/@rootre/forms-dropdown)
 
-## TODO
-1. Dependencies
-> yarn add -D @babel/cli @babel/core @babel/preset-env @babel/preset-react autoprefixer babel-loader cross-env css-loader gh-pages html-webpack-plugin mini-css-extract-plugin node-sass precss rimraf sass-loader style-loader webpack webpack-cli webpack-dev-server
-> && yarn add -P react react-dom
-> && yarn add classnames
+## Installation
 
-2. Github
-create new repo: forms-filtering-dropdown
-> git remote add origin CMD + V
+With yarn
+```
+yarn add @rootre/forms-filtering-dropdown
+```
 
-3. Readme
-Delete TODO section:)
+or with npm
+
+```
+npm install @rootre/forms-filtering-dropdown
+```
+
+## Usage
+
+### Basic usage:
+
+```jsx harmony
+import React from 'react';
+import Dropdown from '@rootre/forms-filtering-dropdown';
+import '@rootre/forms-filtering-dropdown/styles.css';
+
+export default function App() {
+    const items = [
+        {label: 'Cat'},
+        {label: 'Dog'},
+        {label: 'Rabbit'},
+        {label: 'Parrot'},
+    ];
+
+    return (
+        <div>
+            <Dropdown 
+                items={items}
+                afterChange={item => {
+                    console.log('selected item:', item);
+                }}
+            />
+        </div>
+    );
+}
+```
+
+### Note
+
+> 
+
+## Demo
+
+Check out basic [demo page](https://rootre.github.io/forms-filtering-dropdown/)
+
+## Props
+
+> It propagates props to [@rootre/forms-dropdown](https://www.npmjs.com/package/@rootre/forms-dropdown) 
+component
+>
+> ! Note that `itemsTemplate` and `itemTemplate` are already overriden in order to make search input appear and work.
+> If you override them yourself, you end up with broken functionality  
+
+#### searchIn: `string`
+
+> default: `label`
+
+Determines which item's object property will be used for searching for matches 
+
+#### initialSearchText: `string`
+
+> default: `''`
+
+If you want to have preset text in search input
+
+#### texts: `object`
+
+For localization of search strings
+
+#### texts.noResults: `string`
+
+> default: `'No results...'`
+
+When no item matches search text
+
+#### texts.searchPlaceholder: `string`
+
+> default: `'Filter items...'`
+
+Placeholder text in search input
